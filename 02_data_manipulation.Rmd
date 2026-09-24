@@ -83,9 +83,52 @@ mutate(pups_df,
        )
 ```
 
+```{r}
+arrange(litters_df, pups_born_alive)
+arrange(litters_df, desc(gd0_weight))
+```
 
+## Do multiple steps 
+```{r}
+litters_df = read_csv(
+  file = "data/FAS_litters.csv",
+  na = c("", "NA", ".")
+  ) |> 
+  janitor::clean_names() |> 
+  select(group, starts_with("gd")) |> 
+  drop_na() |> 
+  mutate(
+    wt_gain = gd18_weight - gd0_weight, 
+    group = str_to_lower(group)
+  )
+```
 
+Load pups, clean names, drop missing, keep litter number and pd variables, add pd walk minus 7
 
+```{r}
+pups_df = 
+  read_csv(
+    "data/FAS_pups.csv",
+    skip = 3, 
+    na = c("", "NA", ".")
+  ) |> 
+  janitor::clean_names() |> 
+  drop_na() |> 
+  select(-sex) |> 
+  mutate(
+    pd_walk_minus_7 = pd_walk - 7
+    )
+```
+
+Sometimes the first thing is not a dataframe. 
+```{r}
+litters_df |> 
+  lm(gd18_weight ~ gd0_weight, data = _)
+```
+
+```{r}
+litters_df$group
+```
 
 
 
