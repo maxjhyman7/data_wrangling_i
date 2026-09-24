@@ -1,0 +1,10 @@
+---
+title: "Data Manipulation"
+output: github_document
+---
+
+This file is for doing data import. 
+
+```{r}
+library(tidyverse)
+```
